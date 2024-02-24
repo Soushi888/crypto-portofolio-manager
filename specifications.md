@@ -14,6 +14,20 @@ The application will integrate with the CoinGecko API to fetch real-time currenc
 
 ## 4. Technical Specifications
 
+```mermaid
+graph TD;
+    subgraph "Context"
+        A[User's Machine] --> B[Portfolio Manager Application]
+        B --> C[Stakeholders' Machines]
+    end
+    subgraph "Container"
+        D[SvelteKit Frontend] --> E[SQLite Database]
+        D --> F[CoinGecko API]
+        D --> G[Rust WebAssembly Module]
+        G --> H[libp2p for P2P Connectivity]
+    end
+```
+
 ### 4.1 Technology Stack
 
 - **Frontend**: SvelteKit, TypeScript
@@ -55,3 +69,4 @@ The application will integrate with the CoinGecko API to fetch real-time currenc
 ## 7. Conclusion
 
 This specification document outlines the key features, technical specifications, and non-functional requirements for the Portfolio Manager Application. By adhering to these specifications, the development team will ensure the application meets its intended purpose and provides a secure, efficient, and user-friendly solution for managing cryptocurrency portfolios.
+
