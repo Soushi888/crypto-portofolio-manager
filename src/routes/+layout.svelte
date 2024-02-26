@@ -19,5 +19,7 @@
 			<p class="text-black text-center pt-4 text-xl">Side bar</p>
 		</div> -->
 	</svelte:fragment>
-	<slot />
+	<div class="container h-full mx-auto flex justify-center items-center">
+		<slot />
+	</div>
 </AppShell>
