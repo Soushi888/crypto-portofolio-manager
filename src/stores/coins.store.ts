@@ -1,6 +1,6 @@
 import { localStorageStore } from '@skeletonlabs/skeleton';
 
-// Based on the CoinGecko API v3
+// Based on the CoinGecko API v3 endpoint : /coins/markets?vs_currency=usd
 type CoinMarketData = {
 	id: string;
 	symbol: string;
@@ -30,5 +30,34 @@ type CoinMarketData = {
 	last_updated: string;
 };
 
-export const coinDataLocalStorageStore = localStorageStore<CoinMarketData | {}>('coinData', {});
+// Based on the CoinGecko API v3 endpoint : /coins/${coinId}?localization=false&community_data=false&developer_data=false&sparkline=true
+type CoinData = {
+	id: string;
+	symbol: string;
+	name: string;
+	web_slug: string;
+	asset_platform_id: string;
+	platforms: { [key: string]: string };
+	detail_platforms: {
+		[key: string]: {
+			decimal_places?: number;
+			contract_address?: string;
+		};
+	};
+	block_time_in_minutes: number;
+	hashing_algorithm: string;
+	categories: string[];
+	description: { [key: string]: string };
+	links: any;
+	image: {
+		thumb: string;
+		small: string;
+		large: string;
+	};
+	genesis_date: string;
+	market_cap_rank: number;
+	market_data: any;
+};
+
+export const coinDataLocalStorageStore = localStorageStore<CoinData | {}>('coinData', {});
 export const coinsListLocalStorageStore = localStorageStore<CoinMarketData[]>('coinsList', []);

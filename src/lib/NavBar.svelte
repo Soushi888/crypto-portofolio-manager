@@ -4,8 +4,9 @@
 
 <AppBar>
 	<svelte:fragment slot="lead">
-		<a href="/"><strong class="text-xl uppercase">Portefolio Manager</strong></a>
+		<h1>
+			<a href="/"><strong class="text-xl uppercase">Crypto Portefolio Manager</strong></a>
+		</h1>
 	</svelte:fragment>
-	<svelte:fragment slot="trail">
-	</svelte:fragment>
+	<svelte:fragment slot="trail"></svelte:fragment>
 </AppBar>
