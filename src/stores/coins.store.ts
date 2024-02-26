@@ -1,4 +1,4 @@
-import { writable } from 'svelte/store';
+import { localStorageStore } from '@skeletonlabs/skeleton';
 
 // Based on the CoinGecko API v3
 type CoinMarketData = {
@@ -30,5 +30,5 @@ type CoinMarketData = {
 	last_updated: string;
 };
 
-export const coinDataStore = writable<CoinMarketData>();
-export const coinsListStore = writable<CoinMarketData[]>([]);
+export const coinDataLocalStorageStore = localStorageStore<CoinMarketData | {}>('coinData', {});
+export const coinsListLocalStorageStore = localStorageStore<CoinMarketData[]>('coinsList', []);
