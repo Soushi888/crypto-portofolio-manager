@@ -42,7 +42,7 @@ export default class ApiService implements IApiService {
 	 * @return {Promise<any>} A Promise that resolves with the fetched data or rejects with an error if the fetch fails.
 	 */
 	private async fetchWithCache(url: string, cacheKey: string): Promise<any> {
-		const timeLimit = 30 * 1000;
+		const timeLimit = 60 * 1000;
 		const now = Date.now();
 		const cachedData = localStorage.getItem(cacheKey);
 		if (cachedData) {
@@ -77,7 +77,7 @@ export default class ApiService implements IApiService {
 	async getCoinData(coinId: string): Promise<void> {
 		try {
 			const data = await this.fetchWithCache(
-				`${this.baseUrl}/coins/${coinId}`,
+				`${this.baseUrl}/coins/${coinId}?localization=false&community_data=false&developer_data=false&sparkline=true`,
 				`coinData-${coinId}`
 			);
 			coinDataLocalStorageStore.set(data);
@@ -93,7 +93,7 @@ export default class ApiService implements IApiService {
 	async getCoinsMarketData(): Promise<void> {
 		try {
 			const data = await this.fetchWithCache(
-				`${this.baseUrl}/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false`,
+				`${this.baseUrl}/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1`,
 				'coinsMarketData'
 			);
 			coinsListLocalStorageStore.set(data);
