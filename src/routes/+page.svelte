@@ -1,7 +1,5 @@
 <script lang="ts">
-	import { coinsStore } from '../stores/coins.store';
-
-	console.log($coinsStore);
+	export let data;
 </script>
 
 <div class="container h-full mx-auto flex justify-center items-center">
@@ -17,16 +15,19 @@
 		<table>
 			<thead>
 				<tr>
+					<th>#</th>
 					<th>Name</th>
 					<th>Symbol</th>
 					<th>Price</th>
 				</tr>
 			</thead>
 			<tbody>
-				{#each $coinsStore as coin}
+				{#each data.coinsList as coin}
 					<tr>
+						<td>{coin.market_cap_rank}</td>
 						<td>{coin.name}</td>
 						<td>{coin.symbol}</td>
+						<td>{coin.current_price}$</td>
 					</tr>
 				{/each}
 			</tbody>

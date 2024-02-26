@@ -1,19 +1,34 @@
 import { writable } from 'svelte/store';
 
-type Coin = {
+// Based on the CoinGecko API v3
+type CoinMarketData = {
 	id: string;
-	name: string;
 	symbol: string;
+	name: string;
+	image: string;
+	current_price: number;
+	market_cap: number;
+	market_cap_rank: number;
+	fully_diluted_valuation: number;
+	total_volume: number;
+	high_24h: number;
+	low_24h: number;
+	price_change_24h: number;
+	price_change_percentage_24h: number;
+	market_cap_change_24h: number;
+	market_cap_change_percentage_24h: number;
+	circulating_supply: number;
+	total_supply: number;
+	max_supply: number;
+	ath: number;
+	ath_change_percentage: number;
+	ath_date: string;
+	atl: number;
+	atl_change_percentage: number;
+	atl_date: string;
+	roi: null;
+	last_updated: string;
 };
 
-const COINGECKO_API_URL = 'https://api.coingecko.com/api/v3';
-const COINGECKO_API_KEY = import.meta.env.VITE_COINGECKO_API_KEY;
-export const coinsStore = writable<Coin[]>([]);
-
-export async function fetchCoinsMarkets(limit = 10) {
-	const response = await fetch(
-		`${COINGECKO_API_URL}/coins/list?x_cg_pro_api_key=${COINGECKO_API_KEY}`
-	);
-	const data = await response.json();
-	coinsStore.set(data);
-}
+export const coinDataStore = writable<CoinMarketData>();
+export const coinsListStore = writable<CoinMarketData[]>([]);
