@@ -2,16 +2,13 @@
 	export let data;
 </script>
 
-<div class="space-y-10 text-center flex flex-col items-center">
+<main class="space-y-10 text-center flex flex-col items-center">
 	<h2 class="h2">Portefolio Manager.</h2>
-	<!-- Animated Logo -->
-
-	<!-- / -->
 	<a class="btn variant-filled" href="/portefolio/new"> Create a Portefolio </a>
 	<div>
 		<h2 class="h2">All coins</h2>
 	</div>
-	<table>
+	<table class="table table-hover">
 		<thead>
 			<tr>
 				<th>#</th>
@@ -24,11 +21,18 @@
 			{#each data.coinsList as coin}
 				<tr>
 					<td>{coin.market_cap_rank}</td>
-					<td>{coin.name}</td>
+					<td>
+						<div class="flex items-center gap-2">
+							<img src={coin.image} alt={coin.name} width="24" />
+							<a href="/coin/{coin.id}" class="hover:underline">
+								{coin.name}
+							</a>
+						</div>
+					</td>
 					<td>{coin.symbol}</td>
 					<td>{coin.current_price}$</td>
 				</tr>
 			{/each}
 		</tbody>
 	</table>
-</div>
+</main>
