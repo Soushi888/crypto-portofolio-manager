@@ -24,7 +24,11 @@
 					<td>
 						<div class="flex items-center gap-2">
 							<img src={coin.image} alt={coin.name} width="24" />
-							<a href="/coin/{coin.id}" class="hover:underline">
+							<a
+								href="https://www.coingecko.com/en/coins/{coin.id}"
+								class="hover:underline"
+								target="_blank"
+							>
 								{coin.name}
 							</a>
 						</div>
