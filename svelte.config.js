@@ -17,11 +17,12 @@ const config = {
 		// See https://kit.svelte.dev/docs/adapters for more information about adapters.
 		adapter: adapter(),
 		alias: {
-			$types: './$types',
-			'@': './src',
+			'@types': './$types',
+			'@lib': './src/lib',
 			'@components': './src/lib/components',
+			'@stores': './src/stores',
 			'@services': './src/services',
-			'@stores': './src/stores'
+			'@models': './src/models'
 		}
 	}
 };

@@ -38,7 +38,7 @@ export default class DbService {
 			.get(migrationName);
 
 		if (!migrationLog) {
-			const migrationPath = `./migrations/${migrationName}.sql`;
+			const migrationPath = `./src/migrations/${migrationName}.sql`;
 			// Read the migration file
 			const migrationSQL = fs.readFileSync(migrationPath, 'utf8');
 
@@ -52,27 +52,5 @@ export default class DbService {
 		} else {
 			console.log('Initial migration has already been applied.');
 		}
-	}
-}
-
-export type Portfolio = {
-	id?: number;
-	name: string;
-	description: string;
-};
-
-export class PortfolioModel extends DbService {
-	constructor() {
-		super();
-	}
-
-	createPortfolio(portfolio: Portfolio) {
-		const stmt = this.db.prepare('INSERT INTO portfolio (name, description) VALUES (?, ?)');
-		stmt.run(portfolio.name, portfolio.description);
-	}
-
-	getAllPortfolios() {
-		const stmt = this.db.prepare('SELECT * FROM portfolio');
-		return stmt.all();
 	}
 }

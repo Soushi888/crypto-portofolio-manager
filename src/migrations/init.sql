@@ -14,8 +14,10 @@ CREATE TABLE IF NOT EXISTS "user" (
 CREATE TABLE IF NOT EXISTS "portfolio" (
     id INTEGER PRIMARY KEY AUTOINCREMENT, -- Unique identifier for each portfolio. Auto-increments with each new portfolio.
     name TEXT NOT NULL, -- The name of the portfolio. Cannot be NULL.
-    description TEXT -- A description of the portfolio. Can be NULL.
-);
+    current_value REAL DEFAULT 0, -- The current value of the portfolio.
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- The timestamp when the portfolio was created. Defaults to the current timestamp.
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- The timestamp when the portfolio was last updated. Defaults to the current timestamp.
+    );
 
 -- Create a junction table to represent the many-to-many relationship between users and portfolios.
 CREATE TABLE IF NOT EXISTS "portfolio_user" (
@@ -23,18 +25,5 @@ CREATE TABLE IF NOT EXISTS "portfolio_user" (
     portfolio_id INTEGER NOT NULL, -- Foreign key referencing the portfolio ID. Cannot be NULL.
     PRIMARY KEY (user_id, portfolio_id), -- Composite primary key consisting of user_id and portfolio_id.
     FOREIGN KEY (user_id) REFERENCES "user" (id), -- Foreign key constraint linking to the user table.
-    FOREIGN KEY (portfolio_id) REFERENCES "portfolio" (id) -- Foreign key constraint linking to the portfolio table.
+    FOREIGN KEY (portfolio_id) REFERENCES "portfolio" (id) ON DELETE CASCADE -- Foreign key constraint linking to the portfolio table.
 );
-
--- Insert sample users into the user table.
-INSERT INTO user (name) VALUES ('user1');
-INSERT INTO user (name) VALUES ('user2');
-
--- Insert sample portfolios into the portfolio table.
-INSERT INTO portfolio (name, description) VALUES ('portfolio 1', 'Description for Portfolio 1');
-INSERT INTO portfolio (name, description) VALUES ('portfolio 2', 'Description for Portfolio 2');
-
--- Insert relationships into the portfolio_user table to represent which users manage which portfolios.
-INSERT INTO portfolio_user (user_id, portfolio_id) VALUES (1, 1); -- user1 manages Portfolio 1
-INSERT INTO portfolio_user (user_id, portfolio_id) VALUES (1, 2); -- user1 also manages Portfolio 2
-INSERT INTO portfolio_user (user_id, portfolio_id) VALUES (2, 1); -- user2 manages Portfolio 1
