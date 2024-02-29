@@ -3,10 +3,9 @@
 </script>
 
 <main class="space-y-10 text-center flex flex-col items-center">
-	<h2 class="h2">Portefolio Manager.</h2>
-	<a class="btn variant-filled" href="/portefolio/new"> Create a Portefolio </a>
+	<h2 class="h1">Portfolio Manager</h2>
 	<div>
-		<h2 class="h2">All coins</h2>
+		<h2 class="h2">Top 100 coins</h2>
 	</div>
 	<table class="table table-hover">
 		<thead>
