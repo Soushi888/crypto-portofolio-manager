@@ -3,7 +3,7 @@ import fs from 'fs';
 
 export default class DbService {
 	private static instance: DbService;
-	db: Database;
+	db: Database.Database;
 
 	constructor() {
 		this.db = new Database(import.meta.env.VITE_DB_PATH, { verbose: console.log });
