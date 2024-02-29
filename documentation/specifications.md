@@ -34,10 +34,18 @@ graph TD;
 - **Peer-to-Peer Connectivity**: Potential use of Rust WebAssembly with the `libp2p` library
 - **API Integration**: CoinGecko API for cryptocurrency data
 
-###  4.2 Security
+### 4.2 SQLite Database Integration
 
-- **Cryptographically Secure Storage**: Transactions will be stored securely, ensuring an immutable history.
-- **Data Privacy**: The application will adhere to best practices for data privacy and security, ensuring that user information is protected.
+- Local Database Storage: The application will use SQLite as its primary database for storing portfolio data, transactions, and other relevant information. SQLite databases are stored as a single file on the user's machine, making them ideal for the application that need to store data locally.
+- Data Operations: The application will perform CRUD (Create, Read, Update, Delete) operations on the SQLite database to manage portfolios, transactions, and other data. This includes adding and removing coins from portfolios, recording transactions, and calculating portfolio values based on current prices and historical transactions.
+- Encryption: To enhance security, the SQLite database file will be encrypted. This ensures that the data stored in the database is protected from unauthorized access. The application will provide mechanisms for users to set and manage encryption keys.
+- Data Synchronization: Given the peer-to-peer nature of the application, a mechanism for synchronizing data across all instances of the application will be implemented. This could involve using the libp2p crate to facilitate data exchange between peers, ensuring that all users have access to the most up-to-date portfolio information.
+- Browser Compatibility and WebAssembly: While SQLite is primarily a server-side technology, the application will leverage WebAssembly to run SQLite in the browser for client-side data storage. This allows the application to function offline and provides a seamless user experience. However, direct file system access from WebAssembly in the browser is limited and may require user permission.
+  
+### 4.3 Security Considerations
+
+- Data Privacy and Security: The application will adhere to best practices for data privacy and security. This includes encrypting the SQLite database file, validating inputs to prevent SQL injection attacks, and managing user permissions appropriately.
+- Cryptographically Secure Storage: Transactions and other sensitive data will be stored securely, ensuring an immutable history. The application will provide mechanisms for users to set and manage encryption keys, ensuring that data is protected from unauthorized access.
 
 ##  5. Features
 
