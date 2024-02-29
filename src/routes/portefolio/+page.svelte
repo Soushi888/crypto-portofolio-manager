@@ -1,6 +1,9 @@
 <script lang="ts">
 	import { popup, type PopupSettings } from '@skeletonlabs/skeleton';
 	import type { PageData } from './$types';
+	import DeletePortfolioPopup from '@lib/DeletePortfolioPopup.svelte';
+	import CreatePortfolioPopup from '@lib/CreatePortfolioPopup.svelte';
+	import RenamePortfolioPopup from '@lib/RenamePortfolioPopup.svelte';
 
 	export let data: PageData;
 
@@ -10,11 +13,21 @@
 		placement: 'top'
 	};
 
-	const popupDeletePortfolio: PopupSettings = {
-		event: 'click',
-		target: 'popupDeletePortfolio',
-		placement: 'right'
-	};
+	function popupRenamePortfolio(i: number): PopupSettings {
+		return {
+			event: 'click',
+			target: `popupRenamePortfolio-${i}`,
+			placement: 'right'
+		};
+	}
+
+	function popupDeletePortfolio(i: number): PopupSettings {
+		return {
+			event: 'click',
+			target: `popupDeletePortfolio-${i}`,
+			placement: 'right'
+		};
+	}
 </script>
 
 <div class="flex flex-col items-center justify-center gap-5">
@@ -22,13 +35,13 @@
 
 	{#if data.portfolios.length === 0}
 		<p>No portfolios found</p>
-		<button class="btn bg-primary-600" use:popup={popupCreatePortfolio}
-			>Create a new portfolio</button
-		>
+		<button class="btn bg-primary-600" use:popup={popupCreatePortfolio}>
+			Create a new portfolio
+		</button>
 	{:else}
-		<button class="btn bg-primary-600" use:popup={popupCreatePortfolio}
-			>Create a new portfolio</button
-		>
+		<button class="btn bg-primary-600" use:popup={popupCreatePortfolio}>
+			Create a new portfolio
+		</button>
 
 		<table class="table">
 			<thead>
@@ -41,53 +54,26 @@
 			<tbody>
 				{#each data.portfolios as portfolio, i}
 					<tr>
-						<td class="text-center">{portfolio.name}</td>
+						<td class="text-center hover:underline">
+							<a href="/portefolio/{portfolio.id}">{portfolio.name}</a>
+						</td>
 						<td class="text-center">{portfolio.current_value}$</td>
-						<td class="flex justify-center">
-							<button
-								use:popup={{
-									event: 'click',
-									target: `popupDeletePortfolio-${i}`,
-									placement: 'top'
-								}}
-							>
-								<img src="/trash.png" width="24" alt="Delete portfolio icon" />
+						<td class="flex justify-center gap-2">
+							<button title="Rename" use:popup={popupRenamePortfolio(i)}>
+								<img src="/rename-icon.png" width="24" alt="Rename portfolio icon" />
+							</button>
+							<button use:popup={popupDeletePortfolio(i)} title="Delete">
+								<img src="/trash-icon.png" width="24" alt="Delete portfolio icon" />
 							</button>
 						</td>
 					</tr>
-					<div class="card p-4 w-72 shadow-xl" data-popup={`popupDeletePortfolio-${i}`}>
-						<p class="mb-2 text-center">Are you sure ?</p>
-						<form action="?/deletePortfolio" method="post">
-							<div class="flex justify-cente gap-2">
-								<input type="hidden" name="id" value={data.portfolios[i].id} />
-								<button type="submit" class="btn bg-primary-600 w-1/2">Delete</button>
-								<button class="btn bg-secondary-600 w-1/2" on:click={(e) => e.preventDefault()}>
-									No!
-								</button>
-							</div>
-						</form>
-					</div>
+
+					<RenamePortfolioPopup id={portfolio.id} {i} />
+					<DeletePortfolioPopup id={portfolio.id} {i} />
 				{/each}
 			</tbody>
 		</table>
 	{/if}
 </div>
 
-<div class="card p-4 w-72 shadow-xl" data-popup="popupCreatePortfolio">
-	<div>
-		<form action="?/createPortfolio" method="post" class="flex flex-col gap-2 items-center">
-			<div class="form-control">
-				<input
-					type="text"
-					name="name"
-					class="input"
-					placeholder="Name"
-					required
-					autocomplete="off"
-				/>
-			</div>
-			<button type="submit" class="btn bg-primary-600 w-1/2">Create</button>
-		</form>
-	</div>
-	<div class="arrow bg-surface-100-800-token" />
-</div>
+<CreatePortfolioPopup />

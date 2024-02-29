@@ -26,6 +26,18 @@ export const actions: Actions = {
 			result
 		};
 	},
+	async renamePortfolio({ request }) {
+		const formData = await request.formData();
+		const id = formData.get('id') as string;
+		const name = formData.get('name') as string;
+
+		const portfolioModel = new PortfolioModel();
+		const result = portfolioModel.renamePortfolio(id, name);
+		return {
+			status: 200,
+			result
+		};
+	},
 	async deletePortfolio({ request }) {
 		const formData = await request.formData();
 		const id = formData.get('id') as string;
