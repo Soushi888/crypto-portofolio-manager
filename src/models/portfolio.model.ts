@@ -8,29 +8,24 @@ export type Portfolio = {
 	updated_at?: Date;
 };
 
-interface IPortfolioModel {
-	createPortfolio(portfolio: Portfolio): void;
-	getAllPortfolios(): Portfolio[];
-}
-
-export class PortfolioModel extends DbService implements IPortfolioModel {
+export class PortfolioModel extends DbService {
 	constructor() {
 		super();
 	}
 
-	createPortfolio(portfolio: Portfolio) {
+	createPortfolio(name: string) {
 		const stmt = this.db.prepare('INSERT INTO portfolio (name) VALUES (?)');
-		return stmt.run(portfolio.name);
+		return stmt.run(name);
 	}
 
 	getAllPortfolios(): Portfolio[] {
 		const stmt = this.db.prepare('SELECT * FROM portfolio');
-		return stmt.all();
+		return stmt.all() as Portfolio[];
 	}
 
 	getPortfolio(id: string): Portfolio {
 		const stmt = this.db.prepare('SELECT * FROM portfolio WHERE id = ?');
-		return stmt.get(id);
+		return stmt.get(id) as Portfolio;
 	}
 
 	renamePortfolio(id: string, name: string) {
@@ -38,7 +33,7 @@ export class PortfolioModel extends DbService implements IPortfolioModel {
 		return stmt.run(name, id);
 	}
 
-	deletePortfolio({ id }: { id: string }) {
+	deletePortfolio(id: string) {
 		const stmt = this.db.prepare('DELETE FROM portfolio WHERE id = ?');
 		return stmt.run(id);
 	}

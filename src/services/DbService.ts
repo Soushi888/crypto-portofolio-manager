@@ -6,7 +6,7 @@ export default class DbService {
 	db: Database.Database;
 
 	constructor() {
-		this.db = new Database(import.meta.env.VITE_DB_PATH, { verbose: console.log });
+		this.db = new Database('./db.sqlite', { verbose: console.log });
 
 		try {
 			this.db.prepare('PRAGMA table_info(MigrationLog)').all();

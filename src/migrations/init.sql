@@ -4,6 +4,8 @@ CREATE TABLE IF NOT EXISTS "MigrationLog" (
     applied_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- The timestamp when the migration was applied. Defaults to the current timestamp.
 );
 
+INSERT INTO "MigrationLog" (migration_name) VALUES ('init');
+
 -- Create a table for users. Each user has a unique ID, a name, and an optional email.
 CREATE TABLE IF NOT EXISTS "user" (
     id INTEGER PRIMARY KEY AUTOINCREMENT, -- Unique identifier for each user. Auto-increments with each new user.

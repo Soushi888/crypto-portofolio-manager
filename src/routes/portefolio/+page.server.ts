@@ -19,7 +19,7 @@ export const actions: Actions = {
 		const name = formData.get('name') as string;
 
 		const portfolioModel = new PortfolioModel();
-		const result = portfolioModel.createPortfolio({ name });
+		const result = portfolioModel.createPortfolio(name);
 
 		return {
 			status: 200,
@@ -33,6 +33,7 @@ export const actions: Actions = {
 
 		const portfolioModel = new PortfolioModel();
 		const result = portfolioModel.renamePortfolio(id, name);
+
 		return {
 			status: 200,
 			result
@@ -41,8 +42,10 @@ export const actions: Actions = {
 	async deletePortfolio({ request }) {
 		const formData = await request.formData();
 		const id = formData.get('id') as string;
+
 		const portfolioModel = new PortfolioModel();
-		const result = portfolioModel.deletePortfolio({ id });
+		const result = portfolioModel.deletePortfolio(id);
+
 		return {
 			status: 200,
 			result
