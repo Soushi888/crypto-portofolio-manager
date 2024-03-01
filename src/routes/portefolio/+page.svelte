@@ -68,7 +68,7 @@
 						</td>
 					</tr>
 
-					<RenamePortfolioPopup id={portfolio.id} {i} />
+					<RenamePortfolioPopup id={portfolio.id} {i} name={portfolio.name} />
 					<DeletePortfolioPopup id={portfolio.id} {i} />
 				{/each}
 			</tbody>

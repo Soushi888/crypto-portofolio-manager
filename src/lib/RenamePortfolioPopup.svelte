@@ -1,5 +1,6 @@
 <script lang="ts">
 	export let id: string | undefined;
+	export let name: string | undefined;
 	export let i: number;
 </script>
 
@@ -12,7 +13,8 @@
 					type="text"
 					name="name"
 					class="input"
-					placeholder="Name"
+					placeholder="New Name"
+					value={name}
 					required
 					autocomplete="off"
 				/>
