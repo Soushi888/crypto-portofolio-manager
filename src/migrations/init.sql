@@ -33,16 +33,15 @@ CREATE TABLE IF NOT EXISTS "portfolio_stakeholder" (
 CREATE TABLE IF NOT EXISTS "coin" (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
-    symbol TEXT NOT NULL
+    symbol TEXT NOT NULL,
+    image TEXT
 );
 
-CREATE TABLE IF NOT EXISTS "portfolio_coin_stakeholder" (
-    stakeholder_id INTEGER NOT NULL,
+CREATE TABLE IF NOT EXISTS "portfolio_coin" (
     portfolio_id INTEGER NOT NULL,
     coin_id INTEGER NOT NULL,
-    amount REAL NOT NULL,
-    PRIMARY KEY (stakeholder_id, portfolio_id, coin_id),
-    FOREIGN KEY (stakeholder_id) REFERENCES "stakeholder" (id),
+    amount REAL NOT NULL DEFAULT 0,
+    PRIMARY KEY (portfolio_id, coin_id),
     FOREIGN KEY (portfolio_id) REFERENCES "portfolio" (id) ON DELETE CASCADE,
     FOREIGN KEY (coin_id) REFERENCES "coin" (id)
 );

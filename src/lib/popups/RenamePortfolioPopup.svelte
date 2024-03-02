@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
+
 	export let id: string | undefined;
 	export let name: string | undefined;
 	export let i: number;
@@ -6,7 +8,12 @@
 
 <div class="card p-4 w-72 shadow-xl" data-popup={`popupRenamePortfolio-${i}`}>
 	<div>
-		<form action="?/renamePortfolio" method="post" class="flex flex-col gap-2 items-center">
+		<form
+			action="?/renamePortfolio"
+			method="post"
+			class="flex flex-col gap-2 items-center"
+			use:enhance
+		>
 			<input type="hidden" name="id" value={id} />
 			<div class="form-control">
 				<input

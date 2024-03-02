@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { popup, type PopupSettings } from '@skeletonlabs/skeleton';
 	import type { PageData } from './$types';
-	import DeletePortfolioPopup from '@lib/DeletePortfolioPopup.svelte';
-	import CreatePortfolioPopup from '@lib/CreatePortfolioPopup.svelte';
-	import RenamePortfolioPopup from '@lib/RenamePortfolioPopup.svelte';
+	import DeletePortfolioPopup from '@lib/popups/DeletePortfolioPopup.svelte';
+	import CreatePortfolioPopup from '@lib/popups/CreatePortfolioPopup.svelte';
+	import RenamePortfolioPopup from '@lib/popups/RenamePortfolioPopup.svelte';
 
 	export let data: PageData;
 

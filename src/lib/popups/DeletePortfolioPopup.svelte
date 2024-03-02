@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { PopupSettings } from '@skeletonlabs/skeleton';
+	import { enhance } from '$app/forms';
 
 	export let id: string | undefined;
 	export let i: number;
@@ -7,7 +7,7 @@
 
 <div class="card p-4 w-72 shadow-xl" data-popup={`popupDeletePortfolio-${i}`}>
 	<p class="mb-2 text-center">Are you sure ?</p>
-	<form action="?/deletePortfolio" method="post">
+	<form action="?/deletePortfolio" method="post" use:enhance>
 		<div class="flex justify-cente gap-2">
 			<input type="hidden" name="id" value={id} />
 			<button type="submit" class="btn bg-primary-600 w-1/2"> Delete </button>

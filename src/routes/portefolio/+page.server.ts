@@ -1,11 +1,9 @@
 import DbService from '@services/DbService';
-import { PortfolioModel } from '@models/portfolio.model';
+import portfolioModel from '@models/portfolio.model';
 import type { Actions, PageServerLoad } from './$types';
 import { redirect } from '@sveltejs/kit';
 
 export const load: PageServerLoad = async () => {
-	DbService.getInstance();
-	const portfolioModel = new PortfolioModel();
 	const portfolios = portfolioModel.getAllPortfolios();
 
 	return {
@@ -18,7 +16,6 @@ export const actions: Actions = {
 		const formData = await request.formData();
 		const name = formData.get('name') as string;
 
-		const portfolioModel = new PortfolioModel();
 		const result = portfolioModel.createPortfolio(name);
 
 		return {
@@ -31,7 +28,6 @@ export const actions: Actions = {
 		const id = formData.get('id') as string;
 		const name = formData.get('name') as string;
 
-		const portfolioModel = new PortfolioModel();
 		const result = portfolioModel.renamePortfolio(id, name);
 
 		return {
@@ -43,7 +39,6 @@ export const actions: Actions = {
 		const formData = await request.formData();
 		const id = formData.get('id') as string;
 
-		const portfolioModel = new PortfolioModel();
 		const result = portfolioModel.deletePortfolio(id);
 
 		return {

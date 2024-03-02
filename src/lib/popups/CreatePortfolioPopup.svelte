@@ -1,6 +1,15 @@
+<script>
+	import { enhance } from '$app/forms';
+</script>
+
 <div class="card p-4 w-72 shadow-xl" data-popup="popupCreatePortfolio">
 	<div>
-		<form action="?/createPortfolio" method="post" class="flex flex-col gap-2 items-center">
+		<form
+			action="?/createPortfolio"
+			method="post"
+			class="flex flex-col gap-2 items-center"
+			use:enhance
+		>
 			<div class="form-control">
 				<input
 					type="text"

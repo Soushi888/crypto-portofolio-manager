@@ -71,7 +71,6 @@ erDiagram
         string symbol
     }
 
-    STAKEHOLDER }|..|{ COIN: "detain"
     PORTFOLIO }|..|{ COIN: "manage"
 
     TRANSACTION {

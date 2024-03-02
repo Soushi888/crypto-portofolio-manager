@@ -9,32 +9,38 @@ export type Portfolio = {
 };
 
 export class PortfolioModel extends DbService {
+	private readonly tableName = 'portfolio';
+	private readonly junctionTableName = 'portfolio_stakeholder';
+
 	constructor() {
 		super();
 	}
 
 	createPortfolio(name: string) {
-		const stmt = this.db.prepare('INSERT INTO portfolio (name) VALUES (?)');
+		const stmt = this.db.prepare(`INSERT INTO ${this.tableName} (name) VALUES (?)`);
 		return stmt.run(name);
 	}
 
 	getAllPortfolios(): Portfolio[] {
-		const stmt = this.db.prepare('SELECT * FROM portfolio');
+		const stmt = this.db.prepare(`SELECT * FROM ${this.tableName}`);
 		return stmt.all() as Portfolio[];
 	}
 
 	getPortfolio(id: string): Portfolio {
-		const stmt = this.db.prepare('SELECT * FROM portfolio WHERE id = ?');
+		const stmt = this.db.prepare(`SELECT * FROM ${this.tableName} WHERE id = ?`);
 		return stmt.get(id) as Portfolio;
 	}
 
 	renamePortfolio(id: string, name: string) {
-		const stmt = this.db.prepare('UPDATE portfolio SET name = ? WHERE id = ?');
+		const stmt = this.db.prepare(`UPDATE ${this.tableName} SET name = ? WHERE id = ?`);
 		return stmt.run(name, id);
 	}
 
 	deletePortfolio(id: string) {
-		const stmt = this.db.prepare('DELETE FROM portfolio WHERE id = ?');
+		const stmt = this.db.prepare(`DELETE FROM ${this.tableName} WHERE id = ?`);
 		return stmt.run(id);
 	}
 }
+
+const portfolioModel = new PortfolioModel();
+export default portfolioModel;
