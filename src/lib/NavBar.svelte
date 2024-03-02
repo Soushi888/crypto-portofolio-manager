@@ -9,6 +9,6 @@
 		</h1>
 	</svelte:fragment>
 	<svelte:fragment slot="trail">
-		<a class="btn btn-sm bg-primary-600" href="/portefolio">Portfolios</a>
+		<a class="btn btn-sm bg-primary-600" href="/portfolios">Portfolios</a>
 	</svelte:fragment>
 </AppBar>

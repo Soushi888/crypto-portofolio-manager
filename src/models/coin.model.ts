@@ -18,15 +18,17 @@ export class CoinModel extends DbService {
 	}
 
 	addCoin(coin: Coin) {
-		let stmt = this.db.prepare(
-			`INSERT INTO ${this.tableName} (symbol, name, image) VALUES (?, ?, ?)`
-		);
-		const coinId = stmt.run(coin.symbol, coin.name, coin.image).lastInsertRowid;
+		this.db.transaction(() => {
+			let stmt = this.db.prepare(
+				`INSERT INTO ${this.tableName} (symbol, name, image) VALUES (?, ?, ?)`
+			);
+			const coinId = stmt.run(coin.symbol, coin.name, coin.image).lastInsertRowid;
 
-		stmt = this.db.prepare(
-			`INSERT INTO ${this.junctionTableName} (portfolio_id, coin_id) VALUES (?, ?)`
-		);
-		stmt.run(coin.portfolio_id, coinId);
+			stmt = this.db.prepare(
+				`INSERT INTO ${this.junctionTableName} (portfolio_id, coin_id) VALUES (?, ?)`
+			);
+			stmt.run(coin.portfolio_id, coinId);
+		})();
 	}
 
 	getAllPortfolioCoins(portfolioId: string): Coin[] {

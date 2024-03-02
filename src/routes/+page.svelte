@@ -3,7 +3,7 @@
 </script>
 
 <main class="space-y-10 text-center flex flex-col items-center">
-	<h2 class="h1">Portfolio Manager</h2>
+	<h2 class="h1">Crypto Portfolio Manager</h2>
 	<div>
 		<h2 class="h2">Top 100 coins</h2>
 	</div>

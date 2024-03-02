@@ -57,7 +57,7 @@
 				{#each data.portfolios as portfolio, i}
 					<tr>
 						<td class="text-center hover:underline">
-							<a href="/portefolio/{portfolio.id}">{portfolio.name}</a>
+							<a href="/portfolios/{portfolio.id}">{portfolio.name}</a>
 						</td>
 						<td class="text-center">{portfolio.current_value}$</td>
 						<td class="flex justify-center gap-2">
