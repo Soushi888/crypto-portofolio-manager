@@ -6,10 +6,10 @@ CREATE TABLE IF NOT EXISTS "MigrationLog" (
 
 INSERT INTO "MigrationLog" (migration_name) VALUES ('init');
 
--- Create a table for users. Each user has a unique ID, a name, and an optional email.
-CREATE TABLE IF NOT EXISTS "user" (
-    id INTEGER PRIMARY KEY AUTOINCREMENT, -- Unique identifier for each user. Auto-increments with each new user.
-    name TEXT NOT NULL -- The name of the user. Cannot be NULL.
+-- Create a table for stakeholders. Each stakeholder has a unique ID, a name, and an optional email.
+CREATE TABLE IF NOT EXISTS "stakeholder" (
+    id INTEGER PRIMARY KEY AUTOINCREMENT, -- Unique identifier for each stakeholder. Auto-increments with each new stakeholder.
+    name TEXT NOT NULL -- The name of the stakeholder. Cannot be NULL.
 );
 
 -- Create a table for portfolios. Each portfolio has a unique ID, a name, and an optional description.
@@ -21,11 +21,40 @@ CREATE TABLE IF NOT EXISTS "portfolio" (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- The timestamp when the portfolio was last updated. Defaults to the current timestamp.
     );
 
--- Create a junction table to represent the many-to-many relationship between users and portfolios.
-CREATE TABLE IF NOT EXISTS "portfolio_user" (
-    user_id INTEGER NOT NULL, -- Foreign key referencing the user ID. Cannot be NULL.
+-- Create a junction table to represent the many-to-many relationship between stakeholders and portfolios.
+CREATE TABLE IF NOT EXISTS "portfolio_stakeholder" (
+    stakeholder_id INTEGER NOT NULL, -- Foreign key referencing the stakeholder ID. Cannot be NULL.
     portfolio_id INTEGER NOT NULL, -- Foreign key referencing the portfolio ID. Cannot be NULL.
-    PRIMARY KEY (user_id, portfolio_id), -- Composite primary key consisting of user_id and portfolio_id.
-    FOREIGN KEY (user_id) REFERENCES "user" (id), -- Foreign key constraint linking to the user table.
+    PRIMARY KEY (stakeholder_id, portfolio_id), -- Composite primary key consisting of stakeholder_id and portfolio_id.
+    FOREIGN KEY (stakeholder_id) REFERENCES "stakeholder" (id), -- Foreign key constraint linking to the stakeholder table.
     FOREIGN KEY (portfolio_id) REFERENCES "portfolio" (id) ON DELETE CASCADE -- Foreign key constraint linking to the portfolio table.
 );
+
+CREATE TABLE IF NOT EXISTS "coin" (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    symbol TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS "portfolio_coin_stakeholder" (
+    stakeholder_id INTEGER NOT NULL,
+    portfolio_id INTEGER NOT NULL,
+    coin_id INTEGER NOT NULL,
+    amount REAL NOT NULL,
+    PRIMARY KEY (stakeholder_id, portfolio_id, coin_id),
+    FOREIGN KEY (stakeholder_id) REFERENCES "stakeholder" (id),
+    FOREIGN KEY (portfolio_id) REFERENCES "portfolio" (id) ON DELETE CASCADE,
+    FOREIGN KEY (coin_id) REFERENCES "coin" (id)
+);
+
+CREATE TABLE IF NOT EXISTS "transaction" (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    stakeholder_id INTEGER NOT NULL,
+    portfolio_id INTEGER NOT NULL,
+    coin_id INTEGER NOT NULL,
+    amount REAL NOT NULL,
+    price REAL NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (portfolio_id) REFERENCES "portfolio" (id) ON DELETE CASCADE,
+    FOREIGN KEY (coin_id) REFERENCES "coin" (id)
+)

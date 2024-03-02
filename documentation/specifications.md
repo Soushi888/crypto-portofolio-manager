@@ -47,6 +47,52 @@ graph TD;
 - Data Privacy and Security: The application will adhere to best practices for data privacy and security. This includes encrypting the SQLite database file, validating inputs to prevent SQL injection attacks, and managing user permissions appropriately.
 - Cryptographically Secure Storage: Transactions and other sensitive data will be stored securely, ensuring an immutable history. The application will provide mechanisms for users to set and manage encryption keys, ensuring that data is protected from unauthorized access.
 
+### 4.4 DataBase Schema
+
+```mermaid
+erDiagram
+    STAKEHOLDER {
+        int id
+        string name
+    }
+    PORTFOLIO {
+        int id
+        string name
+        float current_value
+        datetime created_at
+        datetime updated_at
+    }
+
+    STAKEHOLDER }|..|{ PORTFOLIO: "manage"
+
+    COIN {
+        int id
+        string name
+        string symbol
+    }
+
+    STAKEHOLDER }|..|{ COIN: "detain"
+    PORTFOLIO }|..|{ COIN: "manage"
+
+    TRANSACTION {
+        int id
+        int portfolio_id
+        int coin_id
+        float amount
+        float price
+        datetime created_at
+    }
+
+    PORTFOLIO ||..|{ TRANSACTION: "record"
+    TRANSACTION }|..|| COIN: "include"
+    TRANSACTION }|..|| STAKEHOLDER: "make"
+
+    MIGRATIONLOG {
+        string migration_name
+        datetime applied_at
+    }
+```
+
 ##  5. Features
 
 ###  5.1 Core Features
@@ -114,3 +160,5 @@ graph TD;
 ##  7. Conclusion
 
 This specification document outlines the key features, technical specifications, and non-functional requirements for the Portfolio Manager Application. By adhering to these specifications, the development team will ensure the application meets its intended purpose and provides a secure, efficient, and user-friendly solution for managing cryptocurrency portfolios.
+
+
