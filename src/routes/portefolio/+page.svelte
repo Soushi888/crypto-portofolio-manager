@@ -30,6 +30,8 @@
 	}
 </script>
 
+<CreatePortfolioPopup />
+
 <div class="flex flex-col items-center justify-center gap-5">
 	<h2 class="h2">Portfolios</h2>
 
@@ -75,5 +77,3 @@
 		</table>
 	{/if}
 </div>
-
-<CreatePortfolioPopup />
