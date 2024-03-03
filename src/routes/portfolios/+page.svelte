@@ -30,7 +30,7 @@
   }
 </script>
 
-<CreatePortfolioPopup />
+<CreatePortfolioPopup stakeholders={data.stakeholders} />
 
 <div class="flex flex-col items-center justify-center gap-4">
   <h2 class="h2">Portfolios</h2>
@@ -50,6 +50,7 @@
         <tr>
           <th class="text-center">Name</th>
           <th class="text-center">Total Value</th>
+          <th class="text-center">Stakeholders</th>
           <th class="text-center">Actions</th>
         </tr>
       </thead>
@@ -60,6 +61,7 @@
               <a href="/portfolios/{portfolio.id}">{portfolio.name}</a>
             </td>
             <td class="text-center">{portfolio.current_value}$</td>
+            <td class="text-center">{portfolio.stakeholders?.join(', ')}</td>
             <td class="flex justify-center gap-2">
               <button title="Rename" use:popup={popupRenamePortfolio(i)}>
                 <img src="/rename-icon.png" width="24" alt="Rename portfolio icon" />

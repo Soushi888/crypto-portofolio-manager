@@ -4,7 +4,10 @@ import coinModel from '@models/coin.model';
 
 export const load: PageServerLoad = async ({ params }) => {
   const portfolioCoinsList = coinModel.getAllPortfolioCoins(params.id);
-  return { ...portfolioModel.getPortfolio(params.id), coinsList: portfolioCoinsList };
+  const stakeholders = portfolioModel
+    .getPortfolioStakeholders(params.id)
+    .map((stakeholder) => stakeholder.name);
+  return { ...portfolioModel.getPortfolio(params.id), stakeholders, coinsList: portfolioCoinsList };
 };
 
 export const actions: Actions = {

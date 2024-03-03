@@ -22,6 +22,7 @@
     Add a coin
   </button>
   <p>Total value: {data.current_value}$</p>
+  <p>Stakeholders: {data.stakeholders?.join(', ')}</p>
   <h3 class="h3">Coins</h3>
   {#if data.coinsList.length > 0}
     <table class="table table-hover">
@@ -57,9 +58,9 @@
               >
                 <img src="/transactions-icon.png" width="24" alt="View transactions icon" />
               </a>
-              <button title="Delete coin"
-                ><img src="/trash-icon.png" width="24" alt="Delete coin icon" /></button
-              >
+              <button title="Delete coin">
+                <img src="/trash-icon.png" width="24" alt="Delete coin icon" />
+              </button>
             </td>
           </tr>{/each}
       </tbody>

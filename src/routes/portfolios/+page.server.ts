@@ -1,13 +1,19 @@
-import DbService from '@services/DbService';
 import portfolioModel from '@models/portfolio.model';
 import type { Actions, PageServerLoad } from './$types';
-import { redirect } from '@sveltejs/kit';
+import stakeholderModel from '@models/stakeholder.model';
 
 export const load: PageServerLoad = async () => {
   const portfolios = portfolioModel.getAllPortfolios();
+  const stakeholders = stakeholderModel.getAllStakeholders();
+
+  portfolios.forEach((portfolio) => {
+    const portfolioStackholders = portfolioModel.getPortfolioStakeholders(portfolio.id!);
+    portfolio.stakeholders = portfolioStackholders.map((stakeholder) => stakeholder.name);
+  });
 
   return {
-    portfolios
+    portfolios,
+    stakeholders
   };
 };
 
@@ -15,8 +21,9 @@ export const actions: Actions = {
   async createPortfolio({ request }) {
     const formData = await request.formData();
     const name = formData.get('name') as string;
+    const stakeholderId = formData.get('stakeholder') as string;
 
-    const result = portfolioModel.createPortfolio(name);
+    const result = portfolioModel.createPortfolio(name, stakeholderId);
 
     return {
       status: 200,
