@@ -1,25 +1,25 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
+  import { enhance } from '$app/forms';
 
-	export let portfolioId: string | undefined;
+  export let portfolioId: string | undefined;
 </script>
 
-<div class="card p-4 w-72 shadow-xl" data-popup={`popupAddCoin`}>
-	<p class="text-center mb-4">Add a coin</p>
-	<form action="?/addCoin" method="POST" use:enhance>
-		<div class="flex flex-col gap-2 items-center">
-			<input type="hidden" name="portfolio_id" value={portfolioId} />
-			<div class="form-control">
-				<input
-					type="search"
-					name="coin_name"
-					placeholder="Search coin"
-					class="input"
-					autocomplete="off"
-				/>
-			</div>
+<div class="card w-72 p-4 shadow-xl" data-popup={`popupAddCoin`}>
+  <p class="mb-4 text-center">Add a coin</p>
+  <form action="?/addCoin" method="POST" use:enhance>
+    <div class="flex flex-col items-center gap-2">
+      <input type="hidden" name="portfolio_id" value={portfolioId} />
+      <div class="form-control">
+        <input
+          type="search"
+          name="coin_name"
+          placeholder="Search coin"
+          class="input"
+          autocomplete="off"
+        />
+      </div>
 
-			<button type="submit" class="btn bg-primary-600 w-1/2">Add</button>
-		</div>
-	</form>
+      <button type="submit" class="btn w-1/2 bg-primary-600">Add</button>
+    </div>
+  </form>
 </div>

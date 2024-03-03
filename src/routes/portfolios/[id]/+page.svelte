@@ -18,7 +18,7 @@
 
 <main class="flex flex-col gap-4">
   <h2 class="h2">Portfolio {data.name}</h2>
-  <button class="btn bg-primary-700 w-1/2 self-center" use:popup={popupAddCoin}>
+  <button class="btn w-1/2 self-center bg-primary-700" use:popup={popupAddCoin}>
     Add a coin
   </button>
   <p>Total value: {data.current_value}$</p>
