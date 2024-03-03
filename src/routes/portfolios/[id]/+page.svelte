@@ -18,9 +18,12 @@
 
 <main class="flex flex-col gap-4">
   <h2 class="h2">Portfolio {data.name}</h2>
-  <button class="btn w-1/2 self-center bg-primary-700" use:popup={popupAddCoin}>
-    Add a coin
-  </button>
+  <div class="flex gap-4">
+    <button class="btn w-1/2 self-center bg-primary-700" use:popup={popupAddCoin}>
+      Add a coin
+    </button>
+    <button class="btn w-1/2 self-center bg-secondary-700">Manage stakeholders</button>
+  </div>
   <p>Total value: {data.current_value}$</p>
   <p>Stakeholders: {data.stakeholders?.join(', ')}</p>
   <h3 class="h3">Coins</h3>
