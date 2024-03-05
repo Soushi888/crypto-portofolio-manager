@@ -1,25 +1,52 @@
 <script lang="ts">
-  import { popup, type PopupSettings } from '@skeletonlabs/skeleton';
+  import {
+    Modal,
+    getModalStore,
+    type ModalSettings,
+    type ModalComponent,
+    type PopupSettings,
+    popup
+  } from '@skeletonlabs/skeleton';
   import type { PageData } from './$types';
-  import AddCoinPopup from '@lib/popups/AddCoinPopup.svelte';
+  import AddCoinPopup from '@lib/modals/AddCoinModal.svelte';
+  import { breadcrumbStore } from '@stores/breadcrumb.store';
+  import DeleteCoinPopup from '@lib/popups/DeleteCoinPopup.svelte';
 
   export let data: PageData;
 
-  const popupAddCoin: PopupSettings = {
-    event: 'click',
-    target: 'popupAddCoin',
-    placement: 'top'
+  const modalStore = getModalStore();
+  const modalComponent: ModalComponent = { ref: AddCoinPopup };
+  const modal: ModalSettings = {
+    type: 'component',
+    component: modalComponent,
+    title: 'Add a coin',
+    body: 'Add a coin to your portfolio',
+    meta: {
+      portfolioId: data.id
+    }
   };
 
-  console.log(data);
+  function popupDeleteCoin(i: number): PopupSettings {
+    return {
+      event: 'click',
+      target: `popupDeleteCoin-${i}`,
+      placement: 'right'
+    };
+  }
+
+  breadcrumbStore.set([
+    [`Home`, '/'],
+    [`Portfolios`, '/portfolios'],
+    [data.name, `/portfolios/${data.id}`]
+  ]);
 </script>
 
-<AddCoinPopup portfolioId={data.id} />
+<Modal />
 
 <main class="flex flex-col gap-4">
   <h2 class="h2">Portfolio {data.name}</h2>
   <div class="flex gap-4">
-    <button class="btn w-1/2 self-center bg-primary-700" use:popup={popupAddCoin}>
+    <button class="btn w-1/2 self-center bg-primary-700" on:click={() => modalStore.trigger(modal)}>
       Add a coin
     </button>
     <button class="btn w-1/2 self-center bg-secondary-700">Manage stakeholders</button>
@@ -39,7 +66,7 @@
         </tr>
       </thead>
       <tbody>
-        {#each data.coinsList as coin}
+        {#each data.coinsList as coin, i}
           <tr>
             <td>
               <a
@@ -52,7 +79,7 @@
             </td>
             <td>{coin.symbol}</td>
             <td>—</td>
-            <td>{coin.amount}$</td>
+            <td>{coin.amount}</td>
             <td class="flex justify-center gap-2">
               <a
                 href="/portfolios/{data.id}/coin?coin_id={coin.id}"
@@ -61,11 +88,13 @@
               >
                 <img src="/transactions-icon.png" width="24" alt="View transactions icon" />
               </a>
-              <button title="Delete coin">
+              <button title="Delete coin" use:popup={popupDeleteCoin(i)}>
                 <img src="/trash-icon.png" width="24" alt="Delete coin icon" />
               </button>
             </td>
-          </tr>{/each}
+          </tr>
+          <DeleteCoinPopup id={coin.id} {i} />
+        {/each}
       </tbody>
     </table>
   {:else}

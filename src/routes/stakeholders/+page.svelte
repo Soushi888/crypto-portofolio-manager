@@ -3,8 +3,14 @@
   import DeleteStakeholderPopup from '@lib/popups/DeleteStakeholderPopup.svelte';
   import RenameStakeholderPopup from '@lib/popups/RenameStakeholderPopup.svelte';
   import { popup, type PopupSettings } from '@skeletonlabs/skeleton';
+  import { breadcrumbStore } from '@stores/breadcrumb.store.js';
 
   export let data;
+
+  breadcrumbStore.set([
+    ['Home', '/'],
+    ['Stakeholders', '/stakeholders']
+  ]);
 
   const popupCreateStakeholder: PopupSettings = {
     event: 'click',
@@ -35,9 +41,9 @@
   <h2 class="h2">Stakeholders</h2>
 
   {#if data.stakeholders.length === 0}
-    <p class="text-center">No stakeholders found</p>
+    <p class="text-center">No stakeholder found</p>
     <button class="btn self-center bg-primary-700" use:popup={popupCreateStakeholder}>
-      Create stakeholder
+      Create a new stakeholder
     </button>
   {:else}
     <button class="btn self-center bg-primary-700" use:popup={popupCreateStakeholder}>
@@ -54,7 +60,9 @@
         {#each data.stakeholders as stakeholder, i}
           <tr>
             <td class="text-center hover:underline">
-              <a href="/stakeholders/{stakeholder.id}">{stakeholder.name}</a>
+              <a href="/stakeholders/{stakeholder.id}">
+                {stakeholder.name}
+              </a>
             </td>
             <td class="flex justify-center gap-2">
               <button title="Rename" use:popup={popupRenameStakeholder(i)}>

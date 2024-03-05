@@ -26,5 +26,16 @@ export const actions: Actions = {
       status: 200,
       result
     };
+  },
+  deleteCoin: async ({ request }) => {
+    const formData = await request.formData();
+    const id = formData.get('id') as string;
+
+    const result = coinModel.deleteCoin(id);
+
+    return {
+      status: 200,
+      result
+    };
   }
 };

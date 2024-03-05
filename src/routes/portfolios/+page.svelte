@@ -4,8 +4,14 @@
   import DeletePortfolioPopup from '@lib/popups/DeletePortfolioPopup.svelte';
   import CreatePortfolioPopup from '@lib/popups/CreatePortfolioPopup.svelte';
   import RenamePortfolioPopup from '@lib/popups/RenamePortfolioPopup.svelte';
+  import { breadcrumbStore } from '@stores/breadcrumb.store';
 
   export let data: PageData;
+
+  breadcrumbStore.set([
+    ['Home', '/'],
+    ['Portfolios', '/portfolios']
+  ]);
 
   const popupCreatePortfolio: PopupSettings = {
     event: 'click',
@@ -32,16 +38,18 @@
 
 <CreatePortfolioPopup stakeholders={data.stakeholders} />
 
-<div class="flex flex-col items-center justify-center gap-4">
-  <h2 class="h2">Portfolios</h2>
+<main class=" flex flex-col gap-4">
+  <h2 class="h2 text-center">Portfolios</h2>
 
   {#if data.portfolios.length === 0}
-    <p>No portfolios found</p>
-    <button class="btn bg-primary-700" use:popup={popupCreatePortfolio}>
-      Create a new portfolio
-    </button>
+    <div class="flex flex-col items-center gap-4">
+      <p>No portfolio found</p>
+      <button class="btn self-center bg-primary-700" use:popup={popupCreatePortfolio}>
+        Create a new portfolio
+      </button>
+    </div>
   {:else}
-    <button class="btn bg-primary-700" use:popup={popupCreatePortfolio}>
+    <button class="btn w-1/2 self-center bg-primary-700" use:popup={popupCreatePortfolio}>
       Create a new portfolio
     </button>
 
@@ -63,10 +71,10 @@
             <td class="text-center">{portfolio.current_value}$</td>
             <td class="text-center">{portfolio.stakeholders?.join(', ')}</td>
             <td class="flex justify-center gap-2">
-              <button title="Rename" use:popup={popupRenamePortfolio(i)}>
+              <button title="Rename portfolio" use:popup={popupRenamePortfolio(i)}>
                 <img src="/rename-icon.png" width="24" alt="Rename portfolio icon" />
               </button>
-              <button use:popup={popupDeletePortfolio(i)} title="Delete">
+              <button use:popup={popupDeletePortfolio(i)} title="Delete portfolio">
                 <img src="/trash-icon.png" width="24" alt="Delete portfolio icon" />
               </button>
             </td>
@@ -78,4 +86,4 @@
       </tbody>
     </table>
   {/if}
-</div>
+</main>

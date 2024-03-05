@@ -1,5 +1,9 @@
 <script lang="ts">
+  import { breadcrumbStore } from '@stores/breadcrumb.store.js';
+
   export let data;
+
+  breadcrumbStore.set([['Home', '/']]);
 </script>
 
 <main class="flex flex-col items-center space-y-10 text-center">

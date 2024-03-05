@@ -37,6 +37,23 @@ export class CoinModel extends DbService {
     );
     return stmt.all(portfolioId) as Coin[];
   }
+
+  getCoin(id: string): Coin {
+    const stmt = this.db.prepare(`SELECT * FROM ${this.tableName} WHERE id = ?`);
+    return stmt.get(id) as Coin;
+  }
+
+  deleteCoin(id: string) {
+    this.db.transaction(() => {
+      let stmt = this.db.prepare(`DELETE FROM ${this.junctionTableName} WHERE coin_id = ?`);
+      stmt.run(id);
+
+      stmt = this.db.prepare(`DELETE FROM ${this.tableName} WHERE id = ?`);
+      stmt.run(id);
+
+      console.log('Coin deleted successfully');
+    })();
+  }
 }
 
 const coinModel = new CoinModel();
