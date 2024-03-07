@@ -1,14 +1,30 @@
-import { coinDataLocalStorageStore, coinsListLocalStorageStore } from '@stores/coins.store';
+import {
+  coinDataLocalStorageStore,
+  coinsListLocalStorageStore,
+  coinsMarketsListLocalStorageStore
+} from '@stores/coins.store';
 import ApiService from './apiService';
 
-interface ICoinGeckoApiService {
-  getCoinsMarketData(): Promise<any>;
-  getCoinData(coinId: string): Promise<any>;
-}
+/**
+ * CoinGeckoApiService class extends ApiService to provide specific methods for fetching
+ * cryptocurrency data from the CoinGecko API.
+ */
+export default class CoinGeckoApiService extends ApiService {
+  /**
+   * @type {string} - The base URL for the CoinGecko API.
+   */
+  private readonly baseUrl: string = 'https://api.coingecko.com/api/v3';
 
-export default class CoinGeckoApiService extends ApiService implements ICoinGeckoApiService {
-  private readonly baseUrl = 'https://api.coingecko.com/api/v3';
+  /**
+   * @type {string[]} - An array of cache keys that should bypass the cache expiration check.
+   */
+  private readonly exeptionKeys: string[] = ['coinsList'];
 
+  /**
+   * Constructor for the CoinGeckoApiService class.
+   *
+   * @param {typeof fetch} fetchFunction - The fetch function reference from the browser or SvelteKit Load function.
+   */
   constructor(fetchFunction: typeof fetch) {
     super(fetchFunction);
   }
@@ -31,6 +47,26 @@ export default class CoinGeckoApiService extends ApiService implements ICoinGeck
   }
 
   /**
+   * Asynchronously fetches a list of all coins and stores it in a local storage store.
+   * The method uses the fetchWithCache method to ensure data is fetched and cached according to the caching rules.
+   * This method specifically utilizes `this.exeptionKeys` to bypass the cache expiration check for the 'coinsList' cache key.
+   *
+   * @return {Promise<void>} A Promise that resolves when the data is fetched and stored.
+   */
+  async getCoinsList(): Promise<void> {
+    console.log('fetching coins list');
+
+    try {
+      const data = await this.fetchWithCache(
+        `${this.baseUrl}/coins/list?include_platform=true`,
+        'coinsList',
+        this.exeptionKeys
+      );
+      coinsListLocalStorageStore.set(data);
+    } catch (e) {}
+  }
+
+  /**
    * Asynchronously fetches coins market data and stores it in a local storage store.
    * The method uses the fetchWithCache method to ensure data is fetched and cached according to the caching rules.
    *
@@ -42,7 +78,7 @@ export default class CoinGeckoApiService extends ApiService implements ICoinGeck
         `${this.baseUrl}/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1`,
         'coinsMarketData'
       );
-      coinsListLocalStorageStore.set(data);
+      coinsMarketsListLocalStorageStore.set(data);
     } catch (e) {}
   }
 }

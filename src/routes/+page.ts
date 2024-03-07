@@ -1,6 +1,6 @@
 import type { PageLoad } from './$types';
 import { get } from 'svelte/store';
-import { coinsListLocalStorageStore } from '@stores/coins.store';
+import { coinsMarketsListLocalStorageStore } from '@stores/coins.store';
 import CoinGeckoApiService from '@services/api-services/CoinGeckoApiService';
 
 export const load: PageLoad = async ({ fetch }) => {
@@ -8,6 +8,6 @@ export const load: PageLoad = async ({ fetch }) => {
   await coinGeckoApiService.getCoinsMarketData();
 
   return {
-    coinsList: get(coinsListLocalStorageStore)
+    coinsList: get(coinsMarketsListLocalStorageStore)
   };
 };

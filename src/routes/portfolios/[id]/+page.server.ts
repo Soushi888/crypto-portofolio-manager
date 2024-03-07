@@ -7,6 +7,7 @@ export const load: PageServerLoad = async ({ params }) => {
   const stakeholders = portfolioModel
     .getPortfolioStakeholders(params.id)
     .map((stakeholder) => stakeholder.name);
+
   return { ...portfolioModel.getPortfolio(params.id), stakeholders, coinsList: portfolioCoinsList };
 };
 

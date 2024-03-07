@@ -1,11 +1,12 @@
 import { coinDataLocalStorageStore, coinsListLocalStorageStore } from '@stores/coins.store';
 
 /**
- * ApiService is a class responsible for fetching and caching data from the CoinGecko API.
- * It implements a caching mechanism using LocalStorage to store fetched data, ensuring
- * that data is not fetched more frequently than once per minute to avoid exceeding API rate limits.
+ * ApiService class for handling API requests with caching functionality.
  */
 export default class ApiService {
+  /**
+   * @type {RequestInit} - The default request options for fetch requests.
+   */
   private readonly requestInit: RequestInit = {
     method: 'GET',
     headers: {
@@ -13,7 +14,14 @@ export default class ApiService {
       mode: 'no-cors'
     }
   };
+  /**
+   * @type {typeof fetch} - The fetch function reference from the browser or SvelteKit Load function.
+   */
   private fetch: typeof fetch;
+
+  /**
+   * @type {number} - Timestamp of the last fetch operation.
+   */
   private lastFetchTime: number = 0;
 
   /**
@@ -26,22 +34,25 @@ export default class ApiService {
   }
 
   /**
-   * Fetches data from the given URL with a caching mechanism using LocalStorage.
-   * The method checks if the data is already cached and not older than  30 seconds.
-   * If the data is not cached or is older, it fetches the data from the API, updates the cache,
-   * and returns the fetched data.
+   * Fetches data from a given URL with caching functionality.
    *
    * @param {string} url - The URL to fetch data from.
-   * @param {string} cacheKey - The key to store and retrieve cached data in LocalStorage.
-   * @return {Promise<any>} A Promise that resolves with the fetched data or rejects with an error if the fetch fails.
+   * @param {string} cacheKey - The key to use for caching the fetched data.
+   * @param {string[]} exeptionKeys - An array of cache keys that should bypass the cache expiration check.
+   * @returns {Promise<any>} - A promise that resolves with the fetched data.
+   * @throws {Error} - Throws an error if the fetch operation fails or if the API call rate limit is exceeded.
    */
-  async fetchWithCache(url: string, cacheKey: string): Promise<any> {
+  async fetchWithCache(url: string, cacheKey: string, exeptionKeys: string[] = []): Promise<any> {
     const timeLimit = 60 * 1000;
     const now = Date.now();
     const cachedData = localStorage.getItem(cacheKey);
+
     if (cachedData) {
       const { data, timestamp } = JSON.parse(cachedData);
-      if (now - timestamp < timeLimit) {
+      console.log(`Cached data found for ${url}`);
+      console.log(JSON.parse(cachedData));
+
+      if (now - timestamp < timeLimit || exeptionKeys.includes(cacheKey)) {
         console.log(`Using cached data for ${url}`);
         return data;
       }
@@ -53,6 +64,8 @@ export default class ApiService {
 
     this.lastFetchTime = now;
     const response = await this.fetch(url, this.requestInit);
+    console.log(`Fetched data from ${url}`);
+
     if (!response.ok) {
       throw new Error('Failed to fetch data');
     }

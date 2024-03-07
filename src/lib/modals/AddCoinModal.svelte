@@ -1,10 +1,12 @@
 <script lang="ts">
   import { enhance } from '$app/forms';
   import { getModalStore } from '@skeletonlabs/skeleton';
+  import { coinsListLocalStorageStore } from '@stores/coins.store';
 
   export let parent: any;
 
   const modalStore = getModalStore();
+  console.log($coinsListLocalStorageStore);
 </script>
 
 {#if $modalStore[0]}

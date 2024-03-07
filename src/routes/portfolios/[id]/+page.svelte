@@ -11,19 +11,25 @@
   import AddCoinPopup from '@lib/modals/AddCoinModal.svelte';
   import { breadcrumbStore } from '@stores/breadcrumb.store';
   import DeleteCoinPopup from '@lib/popups/DeleteCoinPopup.svelte';
+  import { onMount } from 'svelte';
+  import CoinGeckoApiService from '@services/api-services/CoinGeckoApiService';
+  import { get } from 'svelte/store';
 
   export let data: PageData;
 
   const modalStore = getModalStore();
   const modalComponent: ModalComponent = { ref: AddCoinPopup };
-  const modal: ModalSettings = {
-    type: 'component',
-    component: modalComponent,
-    title: 'Add a coin',
-    body: 'Add a coin to your portfolio',
-    meta: {
-      portfolioId: data.id
-    }
+  const modal = (coinsList: any): ModalSettings => {
+    return {
+      type: 'component',
+      component: modalComponent,
+      title: 'Add a coin',
+      body: 'Add a coin to your portfolio',
+      meta: {
+        portfolioId: data.id,
+        coinsList: coinsList || []
+      }
+    };
   };
 
   function popupDeleteCoin(i: number): PopupSettings {
@@ -39,6 +45,11 @@
     [`Portfolios`, '/portfolios'],
     [data.name, `/portfolios/${data.id}`]
   ]);
+
+  onMount(async () => {
+    const apiService = new CoinGeckoApiService(fetch);
+    await apiService.getCoinsList();
+  });
 </script>
 
 <Modal />
@@ -46,7 +57,10 @@
 <main class="flex flex-col gap-4">
   <h2 class="h2">Portfolio {data.name}</h2>
   <div class="flex gap-4">
-    <button class="btn w-1/2 self-center bg-primary-700" on:click={() => modalStore.trigger(modal)}>
+    <button
+      class="btn w-1/2 self-center bg-primary-700"
+      on:click={() => modalStore.trigger(modal(data.coinsList))}
+    >
       Add a coin
     </button>
     <button class="btn w-1/2 self-center bg-secondary-700">Manage stakeholders</button>
